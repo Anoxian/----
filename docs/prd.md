@@ -45,6 +45,7 @@
 
 - The public home page must not show generic Next.js, Supabase, Vercel, tutorial, or starter-template content.
 - The public home page should only keep the project name and login/register entry points.
+- The submitted root URL `/` should show the same branded login experience as `/auth/login`, so reviewers can enter from the submitted project URL without needing a separate login-page link.
 
 ### Authentication Pages
 
