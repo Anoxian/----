@@ -35,6 +35,23 @@
 - The product should make the iteration process visible. Each generated result and each later revision should appear as separate but connected canvas blocks, so the user can understand how the analysis and resume evolved.
 - When the user first enters the product, the assistant should actively greet the user and guide them to provide resume information, career preferences, and/or JD files before generating results.
 
+### Deployment Direction
+
+- The current deployment direction is to make the Next.js application externally accessible without using Cloudbase.
+- Supabase remains the backend for authentication, database persistence, and file storage.
+- The Next.js frontend should be deployed to a Next.js-compatible hosting platform or exposed through a temporary public tunnel during validation.
+
+### Public Home Page
+
+- The public home page must not show generic Next.js, Supabase, Vercel, tutorial, or starter-template content.
+- The public home page should only keep the project name and login/register entry points.
+
+### Authentication Pages
+
+- Login and registration pages should use the product's own visual identity instead of starter-template copy or generic English auth UI.
+- Authentication pages should continue using the existing Next.js React stack, Tailwind CSS, shadcn/ui, and lucide-react instead of introducing a separate frontend framework.
+- The login page visual direction should use a dark, shader-inspired aesthetic with subtle mesh texture, restrained orange accent, and a clear login form. Do not introduce heavy 3D rendering dependencies unless a later interaction specifically requires them.
+
 ### Protected Page: AI Resume And JD Canvas
 
 - Reference design: `docs/images/image.png`.

@@ -1,109 +1,110 @@
-<a href="https://demo-nextjs-with-supabase.vercel.app/">
-  <img alt="Next.js and Supabase Starter Kit - the fastest way to build apps with Next.js and Supabase" src="https://demo-nextjs-with-supabase.vercel.app/opengraph-image.png">
-  <h1 align="center">Next.js and Supabase Starter Kit</h1>
-</a>
+# AI 求职画布
 
-<p align="center">
- The fastest way to build apps with Next.js and Supabase
-</p>
+AI 求职画布是一个面向学生求职场景的 AI 工作台。产品以画布为主界面，把简历画像、岗位推荐、JD 匹配分析、简历优化建议和不同版本的优化简历拆成可追溯的文本节点，帮助用户看清楚一次求职决策是如何被分析和迭代出来的。
 
-<p align="center">
-  <a href="#features"><strong>Features</strong></a> ·
-  <a href="#demo"><strong>Demo</strong></a> ·
-  <a href="#deploy-to-vercel"><strong>Deploy to Vercel</strong></a> ·
-  <a href="#clone-and-run-locally"><strong>Clone and run locally</strong></a> ·
-  <a href="#feedback-and-issues"><strong>Feedback and issues</strong></a>
-  <a href="#more-supabase-examples"><strong>More Examples</strong></a>
-</p>
-<br/>
+## 当前能力
 
-## Features
+- 账号登录与受保护工作区。
+- 画布式 AI 对话工作区，左侧展示节点，右侧进行对话和上传。
+- 支持上传简历和 JD 文件，格式包括 PNG、JPG、JPEG、WebP、MD、DOC、DOCX。
+- 对图片类 JD/简历先做服务端 OCR，再交给 AI 分析。
+- AI 生成用户画像、至少 5 个岗位方向、岗位介绍、JD 匹配分析、简历优化建议和优化版简历。
+- 每次用户输入都会生成独立输入节点，后续分析节点保留版本历史。
+- 节点和连线持久化到 Supabase。
+- 支持拖拽、缩放节点，并保留用户手动调整的位置和尺寸。
+- 支持导出当前画布为 Markdown。
 
-- Works across the entire [Next.js](https://nextjs.org) stack
-  - App Router
-  - Pages Router
-  - Proxy
-  - Client
-  - Server
-  - It just works!
-- supabase-ssr. A package to configure Supabase Auth to use cookies
-- Password-based authentication block installed via the [Supabase UI Library](https://supabase.com/ui/docs/nextjs/password-based-auth)
-- Styling with [Tailwind CSS](https://tailwindcss.com)
-- Components with [shadcn/ui](https://ui.shadcn.com/)
-- Optional deployment with [Supabase Vercel Integration and Vercel deploy](#deploy-your-own)
-  - Environment variables automatically assigned to Vercel project
+## 技术栈
 
-## Demo
+- Next.js App Router
+- React
+- TypeScript
+- Tailwind CSS
+- shadcn/ui
+- lucide-react
+- Supabase Auth / Database / Storage
+- `@xyflow/react` 画布
+- Tesseract.js OCR
+- Kimi / Moonshot 兼容 OpenAI Chat Completions 的服务端 AI 调用
 
-You can view a fully working demo at [demo-nextjs-with-supabase.vercel.app](https://demo-nextjs-with-supabase.vercel.app/).
+## 本地运行
 
-## Deploy to Vercel
+安装依赖：
 
-Vercel deployment will guide you through creating a Supabase account and project.
+```bash
+pnpm install
+```
 
-After installation of the Supabase integration, all relevant environment variables will be assigned to the project so the deployment is fully functioning.
+复制环境变量模板：
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fvercel%2Fnext.js%2Ftree%2Fcanary%2Fexamples%2Fwith-supabase&project-name=nextjs-with-supabase&repository-name=nextjs-with-supabase&demo-title=nextjs-with-supabase&demo-description=This+starter+configures+Supabase+Auth+to+use+cookies%2C+making+the+user%27s+session+available+throughout+the+entire+Next.js+app+-+Client+Components%2C+Server+Components%2C+Route+Handlers%2C+Server+Actions+and+Middleware.&demo-url=https%3A%2F%2Fdemo-nextjs-with-supabase.vercel.app%2F&external-id=https%3A%2F%2Fgithub.com%2Fvercel%2Fnext.js%2Ftree%2Fcanary%2Fexamples%2Fwith-supabase&demo-image=https%3A%2F%2Fdemo-nextjs-with-supabase.vercel.app%2Fopengraph-image.png)
+```bash
+cp .env.example .env
+```
 
-The above will also clone the Starter kit to your GitHub, you can clone that locally and develop locally.
+填写 `.env` 中的 Supabase 和 AI 配置：
 
-If you wish to just develop locally and not deploy to Vercel, [follow the steps below](#clone-and-run-locally).
+```bash
+NEXT_PUBLIC_SUPABASE_URL=your-project-url
+NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=your-publishable-or-anon-key
 
-## Clone and run locally
+AI_PROVIDER=kimi
+AI_API_KEY=your-secret-token
+AI_BASE_URL=https://api.moonshot.cn/v1
+AI_MODEL=kimi-k2.6
 
-1. You'll first need a Supabase project which can be made [via the Supabase dashboard](https://database.new)
+APP_UPLOAD_BUCKET=career-canvas-assets
+APP_MAX_UPLOAD_MB=10
+APP_AI_TIMEOUT_MS=120000
+APP_OCR_LANG=chi_sim
+```
 
-2. Create a Next.js app using the Supabase Starter template npx command
+启动开发服务器：
 
-   ```bash
-   npx create-next-app --example with-supabase with-supabase-app
-   ```
+```bash
+pnpm dev
+```
 
-   ```bash
-   yarn create next-app --example with-supabase with-supabase-app
-   ```
+打开 `http://localhost:3000`。
 
-   ```bash
-   pnpm create next-app --example with-supabase with-supabase-app
-   ```
+## Supabase 初始化
 
-3. Use `cd` to change into the app's directory
+项目的数据库和 Storage 结构位于 `supabase/migrations/`。
 
-   ```bash
-   cd with-supabase-app
-   ```
+首个版本的核心表包括：
 
-4. Rename `.env.example` to `.env.local` and update the following:
+- `job_workspaces`
+- `uploaded_files`
+- `canvas_nodes`
+- `canvas_edges`
+- `ai_messages`
 
-  ```env
-  NEXT_PUBLIC_SUPABASE_URL=[INSERT SUPABASE PROJECT URL]
-  NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=[INSERT SUPABASE PROJECT API PUBLISHABLE OR ANON KEY]
-  ```
-  > [!NOTE]
-  > This example uses `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`, which refers to Supabase's new **publishable** key format.
-  > Both legacy **anon** keys and new **publishable** keys can be used with this variable name during the transition period. Supabase's dashboard may show `NEXT_PUBLIC_SUPABASE_ANON_KEY`; its value can be used in this example.
-  > See the [full announcement](https://github.com/orgs/supabase/discussions/29260) for more information.
+私有文件桶默认为：
 
-  Both `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` can be found in [your Supabase project's API settings](https://supabase.com/dashboard/project/_?showConnect=true)
+```text
+career-canvas-assets
+```
 
-5. You can now run the Next.js local development server:
+执行迁移前请确认目标 Supabase 项目正确，且不要把 service role key、数据库密码、AI token 写入前端代码或提交到仓库。
 
-   ```bash
-   npm run dev
-   ```
+## 常用命令
 
-   The starter kit should now be running on [localhost:3000](http://localhost:3000/).
+```bash
+pnpm lint
+pnpm build
+pnpm dev
+pnpm start
+```
 
-6. This template comes with the default shadcn/ui style initialized. If you instead want other ui.shadcn styles, delete `components.json` and [re-install shadcn/ui](https://ui.shadcn.com/docs/installation/next)
+## 文档结构
 
-> Check out [the docs for Local Development](https://supabase.com/docs/guides/getting-started/local-development) to also run Supabase locally.
+- `docs/prd.md`：产品需求、已确认决策和待办问题。
+- `docs/api/`：AI 工作流、画布节点规范、接口契约、环境变量和 Supabase 数据模型。
+- `docs/images/`：产品参考图和截图资产。
 
-## Feedback and issues
+## 产品原则
 
-Please file feedback and issues over on the [Supabase GitHub org](https://github.com/supabase/supabase/issues/new/choose).
-
-## More Supabase examples
-
-- [Next.js Subscription Payments Starter](https://github.com/vercel/nextjs-subscription-payments)
-- [Cookie-based Auth and the Next.js 13 App Router (free course)](https://youtube.com/playlist?list=PL5S4mPUpp4OtMhpnp93EFSo42iQ40XjbF)
-- [Supabase Auth and the Next.js App Router](https://github.com/supabase/supabase/tree/master/examples/auth/nextjs)
+- 画布不是装饰，而是用来保留求职分析的上下文、版本和推理路径。
+- 一个节点只负责一类内容，避免长对话里信息混在一起。
+- JD 分析和简历优化必须基于用户提供的真实材料，不能编造经历、指标、证书或技能。
+- AI 调用只在服务端执行，浏览器不能拿到 AI provider token。
+- 用户上传的简历和 JD 属于敏感数据，默认走私有存储和最小权限访问。
